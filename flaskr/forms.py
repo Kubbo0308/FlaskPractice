@@ -17,13 +17,23 @@ class LoginForm(FlaskForm):
 
 # 新規登録用のフォーム
 class RegisterForm(FlaskForm):
-    usename = StringField('名前： ', validators=[DataRequired()])
+    username = StringField('名前： ', validators=[DataRequired()])
     email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスを入力してくだちい')])
-    password = PasswordField('パスワード： ', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')])
-    confirm_password = PasswordField('パスワード再入力： ', validators=[DataRequired()])
     submit = SubmitField('新規登録')
 
     # メースアドレスが既に登録されているか確認
     def validate_email(self, field):
         if User.select_user_by_email(field.data):
             raise ValidationError('このメールアドレスは既に登録されています')
+
+# パスワード再設定用フォーム
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        'パスワード', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')]
+    )
+    confirm_password = PasswordField('パスワード確認: ', validators=[DataRequired()])
+    submit = SubmitField('パスワードを更新する')
+    
+    def validate_password(self, field):
+        if len(field.data) < 8:
+            raise ValidationError('パスワードは８文字以上です')

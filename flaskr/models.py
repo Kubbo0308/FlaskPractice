@@ -23,19 +23,81 @@ class User(UserMixin, db.Model):
     )
     picture_path = db.Column(db.Text)
     is_active = db.Column(db.Boolean, unique=False, default=False)
-    create_at = db.Column(db.Datetime, default=datetime.now)
-    update_at = db.Column(db.Datetime, default=datetime.now)
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime, default=datetime.now)
 
     def __init__(self, username, email):
         self.username = username
         self.email = email
 
+    # emailに該当するユーザを取得
     @classmethod
     def select_user_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
     
+    # パスワードが正しいか確認
     def validate_password(self, password):
         return check_password_hash(self.password, password)
     
+    # dbにユーザを追加
     def create_new_user(self):
         db.session.add(self)
+
+    # idに該当するユーザを取得
+    @classmethod
+    def select_user_by_id(cls, id):
+        return cls.query.get(id)
+    
+    # パスワードを保存し、アクティブ状態にする
+    def save_new_password(self, new_password):
+        self.password = generate_password_hash(new_password)
+        self.is_active = True
+
+# パスワードリセット時に利用する
+class PasswordResetToken(db.Model):
+
+    __tablename__ = 'password_reset_tokens'
+
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(
+        db.String(64),
+        unique=True,
+        index = True,
+        server_default=str(uuid4)
+    )
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    expire_at = db.Column(db.DateTime, default=datetime.now)
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, token, user_id, expire_at):
+        self.token = token
+        self.user_id = user_id
+        self.expire_at = expire_at
+
+    @classmethod
+    def publish_token(cls, user):
+        # パスワード設定用のURLを生成
+        token = str(uuid4())
+        new_token = cls(
+            token,
+            user.id,
+            datetime.now() + timedelta(days=1)
+        )
+        db.session.add(new_token)
+        return token
+    
+    # tokenが一致するユーザIDを取得
+    @classmethod
+    def get_user_id_by_token(cls, token):
+        now = datetime.now()
+        record = cls.query.filter_by(token=str(token)).filter(cls.expire_at > now).first()
+        if record:
+            return record.user_id
+        else:
+            return None
+        
+    # 利用を終えたtokenを削除
+    @classmethod
+    def delete_token(cls, token):
+        cls.query.filter_by(token=str(token)).delete()

@@ -9,6 +9,13 @@
     <link rel="icon" href="{{ url_for('static', filename='icon/flask.png') }}">
 </head>
 <body>
+    <a href="{{ url_for('app.home') }}">ホーム</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('app.logout') }}">ログアウト</a>
+    {% else %}
+    <a href="{{ url_for('app.login') }}">ログイン</a>
+    <a href="{{ url_for('app.register') }}">新規登録</a>
+    {% endif %}
     {% block content %}
     {% endblock %}
 </body>
