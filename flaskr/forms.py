@@ -37,3 +37,12 @@ class ResetPasswordForm(FlaskForm):
     def validate_password(self, field):
         if len(field.data) < 8:
             raise ValidationError('パスワードは８文字以上です')
+        
+# パスワードを忘れた時用のフォーム
+class ForgotPasswordForm(FlaskForm):
+    email = StringField('メール： ', validators=[DataRequired(), Email()])
+    submit = SubmitField('パスワードを再設定する')
+
+    def validate_email(self, field):
+        if not User.select_user_by_email(field.data):
+            raise ValidationError('そのメールアドレスは存在しません')
