@@ -12,6 +12,7 @@
     <a href="{{ url_for('app.home') }}">ホーム</a>
     {% if current_user.is_authenticated %}
     <a href="{{ url_for('app.logout') }}">ログアウト</a>
+    <a href="{{ url_for('app.user') }}">ユーザ情報変更</a>
     {% else %}
     <a href="{{ url_for('app.login') }}">ログイン</a>
     <a href="{{ url_for('app.register') }}">新規登録</a>

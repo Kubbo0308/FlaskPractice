@@ -46,3 +46,21 @@ class ForgotPasswordForm(FlaskForm):
     def validate_email(self, field):
         if not User.select_user_by_email(field.data):
             raise ValidationError('そのメールアドレスは存在しません')
+        
+# ユーザの情報を変更する用のフォーム
+class UserForm(FlaskForm):
+    email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスが間違っています')])
+    username = StringField('名前： ', validators=[DataRequired()])
+    picture_path = FileField('ファイルアップロード')
+    submit = SubmitField('登録情報更新')
+
+    def validate(self):
+        if not super(FlaskForm, self).validate():
+            return False
+        user = User.select_user_by_email(self.email.data)
+        if user:
+            # 現在のユーザとidが等しくない（違うユーザが存在するメールアドレスを登録するのを防ぐ）
+            if user.id != int(current_user.get_id()):
+                flash('そのメールアドレスは既に登録されています')
+                return False
+        return True

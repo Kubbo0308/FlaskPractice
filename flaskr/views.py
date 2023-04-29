@@ -12,7 +12,7 @@ from flaskr import db
 
 from flaskr.forms import (
     LoginForm, RegisterForm, ResetPasswordForm,
-    ForgotPasswordForm
+    ForgotPasswordForm, UserForm
 )
 
 bp = Blueprint('app', __name__, url_prefix='')
@@ -110,3 +110,24 @@ def forgot_password():
         else:
             flash('存在しないユーザです')
     return render_template('forgot_password.html', form=form)
+
+# ユーザ登録情報変更時
+@bp.route('/user', methods=['GET', 'POST'])
+@login_required
+def user():
+    form = UserForm(request.form)
+    if request.method == 'POST' and form.validate():
+        # ユーザ情報をidから取得する為に現在のユーザのidを調べる
+        user_id = current_user.get_id()
+        user = User.select_user_by_id(user_id)
+        user.username = form.username.data
+        user.email = form.email.data
+        file = request.files[form.picture_path.name].read()
+        if file:
+            file_name = user_id + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+            picture_path = 'flaskr/static/user_image/' + file_name
+            open(picture_path, 'wb').write(file)
+            user.picture_path = 'user_image/' + file_name
+        db.session.commit()
+        flash('ユーザ情報の更新に成功しました')
+    return render_template('user.html', form=form)
