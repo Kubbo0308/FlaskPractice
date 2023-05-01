@@ -9,7 +9,7 @@
     {% endfor %}
 
     {% if current_user.picture_path %}
-    <img class="user-image-big" src="{{ url_for('static', filename=current_user.picture_path) }}" alt="">
+    <img class="icon-big" src="{{ url_for('static', filename=current_user.picture_path) }}" alt="">
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
