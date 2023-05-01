@@ -12,7 +12,7 @@ from flaskr import db
 
 from flaskr.forms import (
     LoginForm, RegisterForm, ResetPasswordForm,
-    ForgotPasswordForm, UserForm
+    ForgotPasswordForm, UserForm, ChangePassword
 )
 
 bp = Blueprint('app', __name__, url_prefix='')
@@ -131,3 +131,17 @@ def user():
         db.session.commit()
         flash('ユーザ情報の更新に成功しました')
     return render_template('user.html', form=form)
+
+# パスワード再設定時
+@bp.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    form = ChangePassword(request.form)
+    if request.method == 'POST' and form.validate():
+        user_id = current_user.get_id()
+        user = User.select_user_by_id(user_id)
+        password = form.password.data
+        user.save_new_password(password)
+        db.session.commit()
+        flash('パスワードの更新に成功しました')
+        redirect(url_for('app.user'))
+    return render_template('change_password.html', form=form)

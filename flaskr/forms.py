@@ -64,3 +64,13 @@ class UserForm(FlaskForm):
                 flash('そのメールアドレスは既に登録されています')
                 return False
         return True
+
+# パスワードを変更する用のフォーム
+class ChangePassword(FlaskForm):
+    password = PasswordField('パスワード： ', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')])
+    confirm_password = PasswordField('パスワード確認： ', validators=[DataRequired()])
+    submit = SubmitField('パスワード再設定')
+
+    def validate_password(self, field):
+        if len(field.data) < 8:
+            raise ValidationError('パスワードは８文字以上です')
