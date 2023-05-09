@@ -74,3 +74,9 @@ class ChangePassword(FlaskForm):
     def validate_password(self, field):
         if len(field.data) < 8:
             raise ValidationError('パスワードは８文字以上です')
+        
+# ボイスを投稿する用のフォーム
+class CreateVoiceForm(FlaskForm):
+    voice = TextAreaField('内容： ', validators=[DataRequired()])
+    picture_path = FileField('ファイルアップロード')
+    submit = SubmitField('ボイス投稿')

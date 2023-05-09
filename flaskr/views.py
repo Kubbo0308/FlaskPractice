@@ -7,12 +7,12 @@ from flask import (
 from flask_login import (
     login_user, login_required, logout_user, current_user
 )
-from flaskr.models import User, PasswordResetToken
+from flaskr.models import User, PasswordResetToken, Voice
 from flaskr import db
 
 from flaskr.forms import (
     LoginForm, RegisterForm, ResetPasswordForm,
-    ForgotPasswordForm, UserForm, ChangePassword
+    ForgotPasswordForm, UserForm, ChangePassword, CreateVoiceForm
 )
 
 bp = Blueprint('app', __name__, url_prefix='')
@@ -145,3 +145,17 @@ def change_password():
         flash('パスワードの更新に成功しました')
         redirect(url_for('app.user'))
     return render_template('change_password.html', form=form)
+
+# ボイス作成時
+@bp.route('/message/<id>', methods=['GET', 'POST'])
+@login_required
+def message(id):
+    form = CreateVoiceForm(request.form)
+    if request.method == 'POST' and form.validate():
+        new_message = Voice(current_user.get_id(), form.voice.data)
+        new_message.create_message()
+        db.session.commit()
+        return redirect(url_for('app.voice', id=id))
+    return render_template(
+        'message.html', form=form
+    )

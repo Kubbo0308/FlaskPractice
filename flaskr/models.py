@@ -101,3 +101,24 @@ class PasswordResetToken(db.Model):
     @classmethod
     def delete_token(cls, token):
         cls.query.filter_by(token=str(token)).delete()
+
+# ボイス投稿時に利用する
+class Voice(db.Model):
+
+    __tablename__ = 'voices'
+
+    id = db.Column(db.Integer, primary_key=True)
+    picture_path = db.Column(db.Text)
+    voice = db.Column(db.Text)
+    from_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
+    create_at = db.Column(db.DateTime, default=datetime.now)
+    update_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, from_user_id, voice):
+        self.from_user_id = from_user_id
+        self.voice = voice
+
+    def create_voice(self):
+        db.session.add(self)
+
+    
