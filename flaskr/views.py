@@ -147,15 +147,15 @@ def change_password():
     return render_template('change_password.html', form=form)
 
 # ボイス作成時
-@bp.route('/message/<id>', methods=['GET', 'POST'])
+@bp.route('/voice', methods=['GET', 'POST'])
 @login_required
-def message(id):
+def voice():
     form = CreateVoiceForm(request.form)
     if request.method == 'POST' and form.validate():
-        new_message = Voice(current_user.get_id(), form.voice.data)
-        new_message.create_message()
+        new_voice = Voice(current_user.get_id(), form.voice.data)
+        new_voice.create_voice()
         db.session.commit()
-        return redirect(url_for('app.voice', id=id))
+        flash('新規ボイス投稿に成功しました')
     return render_template(
-        'message.html', form=form
+        'voice.html', form=form
     )
