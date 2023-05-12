@@ -9,15 +9,26 @@
     <link rel="icon" href="{{ url_for('static', filename='icon/flask.png') }}">
 </head>
 <body>
-    <a href="{{ url_for('app.home') }}">ホーム</a>
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('app.logout') }}">ログアウト</a>
-    <a href="{{ url_for('app.user') }}">ユーザ情報変更</a>
-    <a href="{{ url_for('app.voice') }}">ボイス投稿</a>
-    {% else %}
-    <a href="{{ url_for('app.login') }}">ログイン</a>
-    <a href="{{ url_for('app.register') }}">新規登録</a>
-    {% endif %}
+    <header>
+        <a href="{{ url_for('app.home') }}">
+            <div class="flex">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgM85LEvtgJrUmGx95tmMptVQWhITwGOun2FEdThRoHM1iA2IV7J9KA94UtTJco4GVIvitht8kY-nc9U6SBQ6oLlsGCLSlr2S0dv9m04sUFE_suAa77Z8V-HxOFVxSsPMEqRgGGlC0ilOpb-a_tAjkvTr_ux8GfLjdCFWkj8HVQ-kGVukNz9WfrQ9_s1g=s400" alt="">
+                <p>Voiccer</p>
+            </div>
+        </a>
+            <nav>
+            <ul>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('app.user') }}">ユーザ情報変更</a></li>
+                <li><a href="{{ url_for('app.voice') }}">ボイス投稿</a></li>
+                <li><a href="{{ url_for('app.logout') }}">ログアウト</a></li>
+                {% else %}
+                <li><a href="{{ url_for('app.login') }}">ログイン</a></li>
+                <li><a href="{{ url_for('app.register') }}">新規登録</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
     {% block content %}
     {% endblock %}
 </body>
