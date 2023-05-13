@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    padding: 1% 2% 1%;
+    background-color: #FFCC66;
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+}
+
+.flex {
+    display: flex;
+}
+
+header img {
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+}
+
+header p {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+    font-family: Comic Sans MS;
+}
+
+header ul {
+    list-style: none;
+    margin-left: 40px;
+    display: flex;
+    font-weight: bold;
+}
+
+header li {
+    margin-right: 25px;
+    font-size: 15px;
+}
+
+.log {
+    margin-left: auto;
+}
+
+a {	
+    text-decoration: none;
+    color: #4b4b4b;
+ }
