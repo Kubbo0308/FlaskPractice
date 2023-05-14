@@ -108,14 +108,16 @@ class Voice(db.Model):
     __tablename__ = 'voices'
 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
     picture_path = db.Column(db.Text)
     voice = db.Column(db.Text)
     from_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
     create_at = db.Column(db.DateTime, default=datetime.now)
     update_at = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, from_user_id, voice):
+    def __init__(self, from_user_id, title, voice):
         self.from_user_id = from_user_id
+        self.title = title
         self.voice = voice
 
     def create_voice(self):

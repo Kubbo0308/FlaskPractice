@@ -18,9 +18,12 @@ from flaskr.forms import (
 bp = Blueprint('app', __name__, url_prefix='')
 
 # ホーム
-@bp.route('/')
+@bp.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    if request.method == 'GET':
+        # Voiceテーブルの全てのデータを取得
+        voices = Voice.query.all() 
+    return render_template('home.html', voices=voices)
 
 # ログアウト時
 @bp.route('/logout')
@@ -152,7 +155,7 @@ def change_password():
 def voice():
     form = CreateVoiceForm(request.form)
     if request.method == 'POST' and form.validate():
-        new_voice = Voice(current_user.get_id(), form.voice.data)
+        new_voice = Voice(current_user.get_id(), form.title.data, form.voice.data)
         new_voice.create_voice()
         db.session.commit()
         flash('新規ボイス投稿に成功しました')

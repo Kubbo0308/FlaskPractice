@@ -3,4 +3,13 @@ footer {
     background-color: #FFCC66;
     text-align: center;
     padding: 30px 0;
+    position: absolute;
+    bottom: 0;
+}
+
+footer img {
+    margin: 1%;
+    width: 3%;
+    background-color: white;
+    border-radius: 30%;
 }

@@ -9,6 +9,12 @@
     {% endif %}
         <p>ユーザ名：{{ current_user.username }}</p>
     <p>メールアドレス：{{ current_user.email }}</p>
+    {% for voice in voices[::-1] %}
+    <article>
+        <h2>{{ voice.title }}</h2>
+        <p>{{ voice.voice }}</p>
+    </article>
+    {% endfor %}
 {% else %}
     <p>ログイン or 新規登録をしてくだちい</p>
 {% endif %}
