@@ -12,6 +12,9 @@
     {% for voice in voices[::-1] %}
     <article>
         <h2>{{ voice.title }}</h2>
+        {% if voice.picture_path %}
+            <img src="{{ url_for('static', filename=voice.picture_path) }}" alt="">
+        {% endif %}
         <p>{{ voice.voice }}</p>
     </article>
     {% endfor %}

@@ -115,9 +115,10 @@ class Voice(db.Model):
     create_at = db.Column(db.DateTime, default=datetime.now)
     update_at = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, from_user_id, title, voice):
+    def __init__(self, from_user_id, title, picture_path, voice):
         self.from_user_id = from_user_id
         self.title = title
+        self.picture_path = picture_path
         self.voice = voice
 
     def create_voice(self):
