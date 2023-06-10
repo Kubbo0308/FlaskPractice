@@ -22,7 +22,7 @@ bp = Blueprint('app', __name__, url_prefix='')
 def home():
     if request.method == 'GET':
         # Voiceテーブルの全てのデータを取得
-        voices = Voice.query.all() 
+        voices = Voice.query.all()
     return render_template('home.html', voices=voices)
 
 # ログアウト時
@@ -155,13 +155,16 @@ def change_password():
 def voice():
     form = CreateVoiceForm(request.form)
     if request.method == 'POST' and form.validate():
-        # picture_pathはDatarequiredなので、絶対に存在する
-        file = request.files[form.picture_path.name].read()
-        file_name = current_user.get_id() + '_' + str(int(datetime.now().timestamp())) + 'jpg'
-        picture_path = 'flaskr/static/voice_image/' + file_name
-        open(picture_path, 'wb').write(file)
-        voice_picture_path = 'voice_image/' + file_name
-        new_voice = Voice(current_user.get_id(), form.title.data, voice_picture_path, form.voice.data)
+        # picture_pathに何も入っていない場合
+        if request.files[form.picture_path.name] is None:
+            new_voice = Voice(current_user.get_id(), form.title.data, None, form.voice.data)
+        else:
+            file = request.files[form.picture_path.name].read()
+            file_name = current_user.get_id() + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+            picture_path = 'flaskr/static/voice_image/' + file_name
+            open(picture_path, 'wb').write(file)
+            voice_picture_path = 'voice_image/' + file_name
+            new_voice = Voice(current_user.get_id(), form.title.data, voice_picture_path, form.voice.data)
         new_voice.create_voice()
         db.session.commit()
         flash('新規ボイス投稿に成功しました')
