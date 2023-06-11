@@ -15,9 +15,9 @@
     <article>
         <h2>{{ voice.title }}</h2>
         {% if voice.picture_path is none%}
-            <img class="icon-small" src="{{ url_for('static', filename='noimage.png') }}">
+            <img class="voice-icon" src="{{ url_for('static', filename='noimage.png') }}">
         {% else %}
-            <img src="{{ url_for('static', filename=voice.picture_path) }}" alt="">
+            <img class="voice-icon" src="{{ url_for('static', filename=voice.picture_path) }}" alt="">
         {% endif %}
         <p>{{ voice.voice }}</p>
     </article>

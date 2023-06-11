@@ -156,7 +156,7 @@ def voice():
     form = CreateVoiceForm(request.form)
     if request.method == 'POST' and form.validate():
         # picture_pathに何も入っていない場合
-        if request.files[form.picture_path.name] is None:
+        if len(request.files[form.picture_path.name].read()) == 0:
             new_voice = Voice(current_user.get_id(), form.title.data, None, form.voice.data)
         else:
             file = request.files[form.picture_path.name].read()

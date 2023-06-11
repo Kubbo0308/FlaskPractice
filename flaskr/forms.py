@@ -33,11 +33,11 @@ class ResetPasswordForm(FlaskForm):
     )
     confirm_password = PasswordField('パスワード確認: ', validators=[DataRequired()])
     submit = SubmitField('パスワードを更新する')
-    
+
     def validate_password(self, field):
         if len(field.data) < 8:
             raise ValidationError('パスワードは８文字以上です')
-        
+
 # パスワードを忘れた時用のフォーム
 class ForgotPasswordForm(FlaskForm):
     email = StringField('メール： ', validators=[DataRequired(), Email()])
@@ -46,7 +46,7 @@ class ForgotPasswordForm(FlaskForm):
     def validate_email(self, field):
         if not User.select_user_by_email(field.data):
             raise ValidationError('そのメールアドレスは存在しません')
-        
+
 # ユーザの情報を変更する用のフォーム
 class UserForm(FlaskForm):
     email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスが間違っています')])
@@ -74,10 +74,10 @@ class ChangePassword(FlaskForm):
     def validate_password(self, field):
         if len(field.data) < 8:
             raise ValidationError('パスワードは８文字以上です')
-        
+
 # ボイスを投稿する用のフォーム
 class CreateVoiceForm(FlaskForm):
     title = StringField('タイトル： ', validators=[DataRequired()])
     voice = TextAreaField('内容： ', validators=[DataRequired()])
-    picture_path = FileField('ファイルアップロード')
+    picture_path = FileField('ファイルアップロード', default='')
     submit = SubmitField('ボイス投稿')

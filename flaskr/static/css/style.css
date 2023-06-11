@@ -3,18 +3,38 @@
     margin: 0;
     padding: 0;
 }
- 
+
+.wrapper {
+    background-color: #c2c2c2;
+    padding: 2% 0 2% 0;
+}
+
+.container {
+    background-color: white;
+    margin: 0% 3% 0% 3%;
+}
+
 body {
-    margin: 0;
-    padding-top: 100px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e6e6e6;
+}
+
+article {
+    border: solid 1px #c2c2c2;
 }
 
 .icon-small {
     width: 100px;
+    height: 100px;
+    object-fit: contain;
 }
 
 .icon-big {
     width: 300px;
+}
+
+.voice-icon {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    background-color: black;
 }
