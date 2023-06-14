@@ -20,6 +20,9 @@
             <img class="voice-icon" src="{{ url_for('static', filename=voice.picture_path) }}" alt="">
         {% endif %}
         <p>{{ voice.voice }}</p>
+        {% if current_user.id == voice.from_user_id %}
+            <a href="{{ url_for('app.update_voice', id=voice.id) }}">編集</a>
+        {% endif %}
     </article>
     {% endfor %}
 {% else %}

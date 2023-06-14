@@ -22,7 +22,7 @@
             <ul>
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('app.voice') }}">ボイス投稿</a></li>
-                <li><a href="{{ url_for('app.user') }}">ユーザ情報変更</a></li>
+                <li><a href="{{ url_for('app.user', id=current_user.id) }}">ユーザ情報変更</a></li>
                 <li class="log"><a href="{{ url_for('app.logout') }}">ログアウト</a></li>
                 {% else %}
                 <li class="log"><a href="{{ url_for('app.login') }}">ログイン</a></li>

@@ -34,11 +34,11 @@ class User(UserMixin, db.Model):
     @classmethod
     def select_user_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
-    
+
     # パスワードが正しいか確認
     def validate_password(self, password):
         return check_password_hash(self.password, password)
-    
+
     # dbにユーザを追加
     def create_new_user(self):
         db.session.add(self)
@@ -47,7 +47,7 @@ class User(UserMixin, db.Model):
     @classmethod
     def select_user_by_id(cls, id):
         return cls.query.get(id)
-    
+
     # パスワードを保存し、アクティブ状態にする
     def save_new_password(self, new_password):
         self.password = generate_password_hash(new_password)
@@ -86,7 +86,7 @@ class PasswordResetToken(db.Model):
         )
         db.session.add(new_token)
         return token
-    
+
     # tokenが一致するユーザIDを取得
     @classmethod
     def get_user_id_by_token(cls, token):
@@ -96,7 +96,7 @@ class PasswordResetToken(db.Model):
             return record.user_id
         else:
             return None
-        
+
     # 利用を終えたtokenを削除
     @classmethod
     def delete_token(cls, token):
@@ -124,4 +124,8 @@ class Voice(db.Model):
     def create_voice(self):
         db.session.add(self)
 
-    
+    # idに該当するボイスを取得
+    @classmethod
+    def select_voice_by_id(cls, id):
+        return cls.query.get(id)
+

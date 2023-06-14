@@ -81,3 +81,11 @@ class CreateVoiceForm(FlaskForm):
     voice = TextAreaField('内容： ', validators=[DataRequired()])
     picture_path = FileField('ファイルアップロード', default='')
     submit = SubmitField('ボイス投稿')
+
+
+# ボイスを更新する用のフォーム
+class UpdateVoiceForm(FlaskForm):
+    title = StringField('タイトル： ', validators=[DataRequired()])
+    voice = TextAreaField('内容： ', validators=[DataRequired()])
+    picture_path = FileField('ファイルアップロード', default='')
+    submit = SubmitField('ボイス更新')

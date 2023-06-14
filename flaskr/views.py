@@ -12,7 +12,8 @@ from flaskr import db
 
 from flaskr.forms import (
     LoginForm, RegisterForm, ResetPasswordForm,
-    ForgotPasswordForm, UserForm, ChangePassword, CreateVoiceForm
+    ForgotPasswordForm, UserForm, ChangePassword, CreateVoiceForm,
+    UpdateVoiceForm
 )
 
 bp = Blueprint('app', __name__, url_prefix='')
@@ -115,19 +116,18 @@ def forgot_password():
     return render_template('forgot_password.html', form=form)
 
 # ユーザ登録情報変更時
-@bp.route('/user', methods=['GET', 'POST'])
+@bp.route('/user/<int:id>', methods=['GET', 'POST'])
 @login_required
-def user():
+def user(id):
     form = UserForm(request.form)
     if request.method == 'POST' and form.validate():
-        # ユーザ情報をidから取得する為に現在のユーザのidを調べる
-        user_id = current_user.get_id()
-        user = User.select_user_by_id(user_id)
+        # ユーザ情報をidから取得する
+        user = User.select_user_by_id(id)
         user.username = form.username.data
         user.email = form.email.data
         file = request.files[form.picture_path.name].read()
-        if file:
-            file_name = user_id + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+        if len(file) != 0:
+            file_name = str(id) + '_' + str(int(datetime.now().timestamp())) + 'jpg'
             picture_path = 'flaskr/static/user_image/' + file_name
             open(picture_path, 'wb').write(file)
             user.picture_path = 'user_image/' + file_name
@@ -168,6 +168,28 @@ def voice():
         new_voice.create_voice()
         db.session.commit()
         flash('新規ボイス投稿に成功しました')
+        redirect(url_for('app.home'))
     return render_template(
         'voice.html', form=form
     )
+
+
+@bp.route('/update_voice/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_voice(id):
+    form = UpdateVoiceForm(request.form)
+    voice = Voice.select_voice_by_id(id)
+    if request.method == 'POST' and form.validate():
+        voice.title = form.title.data
+        voice.voice = form.voice.data
+        file = request.files[form.picture_path.name].read()
+        if len(file) != 0:
+            file_name = str(id) + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+            picture_path = 'flaskr/static/voice_image/' + file_name
+            open(picture_path, 'wb').write(file)
+            voice.picture_path = 'voice_image/' + file_name
+        db.session.commit()
+        flash('ボイスの投稿に成功しました')
+        redirect(url_for('app.home'))
+    return render_template('update_voice.html', form=form, voice=voice)
+
