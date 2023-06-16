@@ -22,6 +22,7 @@
         <p>{{ voice.voice }}</p>
         {% if current_user.id == voice.from_user_id %}
             <a href="{{ url_for('app.update_voice', id=voice.id) }}">編集</a>
+            <a href="{{ url_for('app.delete_voice', id=voice.id) }}">削除</a>
         {% endif %}
     </article>
     {% endfor %}

@@ -124,6 +124,9 @@ class Voice(db.Model):
     def create_voice(self):
         db.session.add(self)
 
+    def delete_voice(self):
+        db.session.delete(self)
+
     # idに該当するボイスを取得
     @classmethod
     def select_voice_by_id(cls, id):

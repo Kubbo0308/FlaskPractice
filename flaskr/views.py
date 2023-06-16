@@ -193,3 +193,11 @@ def update_voice(id):
         redirect(url_for('app.home'))
     return render_template('update_voice.html', form=form, voice=voice)
 
+
+@bp.route('/delete_voice/<int:id>')
+@login_required
+def delete_voice(id):
+    voice = Voice.select_voice_by_id(id)
+    voice.delete_voice()
+    db.session.commit()
+    return redirect(url_for('app.home'))
