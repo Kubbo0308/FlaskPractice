@@ -115,10 +115,18 @@ def forgot_password():
             flash('存在しないユーザです')
     return render_template('forgot_password.html', form=form)
 
-# ユーザ登録情報変更時
-@bp.route('/user/<int:id>', methods=['GET', 'POST'])
+
+@bp.route('/mypage/<int:id>')
 @login_required
-def user(id):
+def mypage(id):
+    voices = Voice.select_by_from_user_id_all(id)
+    return render_template('mypage.html', voices=voices)
+
+
+# ユーザ登録情報変更時
+@bp.route('/mypage/change_user_info/<int:id>', methods=['GET', 'POST'])
+@login_required
+def change_user_info(id):
     form = UserForm(request.form)
     if request.method == 'POST' and form.validate():
         # ユーザ情報をidから取得する
@@ -201,3 +209,4 @@ def delete_voice(id):
     voice.delete_voice()
     db.session.commit()
     return redirect(url_for('app.home'))
+

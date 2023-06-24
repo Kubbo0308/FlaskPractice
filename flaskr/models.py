@@ -132,3 +132,9 @@ class Voice(db.Model):
     def select_voice_by_id(cls, id):
         return cls.query.get(id)
 
+    # ユーザIDを条件にボイスを全て取得
+    @classmethod
+    def select_by_from_user_id_all(cls, id):
+        return cls.query.filter_by(from_user_id=id).all()
+
+

@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% block title %}
-ホーム - {{ super() }}
+マイページ - {{ super() }}
 {% endblock %}
 {% block content %}
 {% if current_user.is_authenticated %}
-    <h1>みんなのボイス一覧</h1>
+    <h1>{{ current_user.username }}さんのプロフィール</h1>
+    {% if current_user.picture_path is none%}
+        <img class="icon-small" src="{{ url_for('static', filename='noimage.png') }}">
+    {% else %}
+        <img class="icon-small" src="{{ url_for('static', filename=current_user.picture_path) }}">
+    {% endif %}
+    <p>ユーザ名：{{ current_user.username }}</p>
+    <p>メールアドレス：{{ current_user.email }}</p>
+    <a href="{{ url_for('app.change_user_info', id=current_user.id) }}">ユーザ情報変更</a>
+
+    <h1>{{ current_user.username }}さんのボイス一覧</h1>
     <div class="flex-container">
     {% for voice in voices[::-1] %}
         <div class="flex-item wrapper card_radius">

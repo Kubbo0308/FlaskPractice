@@ -5,7 +5,7 @@
 }
 
 .wrapper {
-    background-color: #c2c2c2;
+    /* background-color: #c2c2c2; */
     padding: 2% 0 2% 0;
 }
 
@@ -14,12 +14,53 @@
     margin: 0% 3% 0% 3%;
 }
 
+h1 {
+    padding: 0.4rem 0.5rem;
+    color: #212121;
+    background: #FFFFCC;
+    border-left: solid 10px #FFCC66;
+    border-bottom: solid 3px #d7d7d7;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-article {
-    border: solid 1px #c2c2c2;
+.flex-item {
+    width: 30%;
+    margin: 1rem auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+}
+
+.card_radius {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.2);
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 0 0px rgba(0,0,0,.16);
+    color: #212121;
+    text-decoration: none;
+}
+
+.card_title {
+    padding: 1rem 1.5rem 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: solid 3px black;
+}
+
+.card_body {
+    padding: 0 1.5rem;
 }
 
 .icon-small {
@@ -33,8 +74,11 @@ article {
 }
 
 .voice-icon {
-    width: 250px;
-    height: 250px;
+    /* width: 100%;
+    height: 300px;
+    object-fit: cover; */
+    width: 300px;
+    height: 300px;
     object-fit: contain;
     background-color: black;
 }
