@@ -7,7 +7,7 @@
     {% for message in get_flashed_messages() %}
     {{ message }}
     {% endfor %}
-
+    <h1>ボイス投稿</h1>
     <form method="POST" enctype="multipart/form-data">
         {{ form.csrf_token }}
         {{ render_field(form.title) }}

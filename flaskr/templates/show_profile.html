@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+{{ user.username }}さんのページ - {{ super() }}
+{% endblock %}
+{% block content %}
+<h1>{{ user.username }}さんのプロフィール</h1>
+{% if user.picture_path is none%}
+    <img class="icon-small" src="{{ url_for('static', filename='noimage.png') }}">
+{% else %}
+    <img class="icon-small" src="{{ url_for('static', filename=user.picture_path) }}">
+{% endif %}
+<p>ユーザ名：{{ user.username }}</p>
+<p>メールアドレス：{{ user.email }}</p>
+
+<h1>{{ user.username }}さんのボイス一覧</h1>
+<div class="flex-container">
+{% for voice in voices[::-1] %}
+    <div class="flex-item wrapper card_radius">
+        <article class="card">
+            <div class="card_title">
+                <p>{{ voice.title }}</p>
+            </div>
+            <div class="card_body">
+                <p class="card_text">{{ voice.voice }}</p>
+            </div>
+            <figure class="card_thumbnail">
+                {% if voice.picture_path is none%}
+                    <img class="voice-icon" src="{{ url_for('static', filename='noimage.png') }}">
+                {% else %}
+                    <img class="voice-icon" src="{{ url_for('static', filename=voice.picture_path) }}" alt="">
+                {% endif %}
+            </figure>
+        </article>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

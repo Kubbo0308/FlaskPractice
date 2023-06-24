@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+ユーザ一覧 - {{ super() }}
+{% endblock %}
+{% block content %}
+<h1>ユーザ一覧</h1>
+<form class="search-form-005" method="post">
+    <label>
+        <input type="text" name="search" placeholder="キーワードを入力">
+    </label>
+    <button type="submit" aria-label="検索" formaction="{{ url_for('app.list_user') }}"></button>
+</form>
+{% for user in users %}
+    {{ user.username }}
+    <a href="{{ url_for('app.show_profile', id=user.id) }}">詳細画面へ</a>
+{% endfor %}
+{% endblock %}

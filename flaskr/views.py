@@ -116,11 +116,37 @@ def forgot_password():
     return render_template('forgot_password.html', form=form)
 
 
+# マイページ時
 @bp.route('/mypage/<int:id>')
 @login_required
 def mypage(id):
     voices = Voice.select_by_from_user_id_all(id)
     return render_template('mypage.html', voices=voices)
+
+
+# ユーザ詳細閲覧時
+@bp.route('/show_profile/<int:id>')
+@login_required
+def show_profile(id):
+    user = User.select_user_by_id(id)
+    voices = Voice.select_by_from_user_id_all(id)
+    return render_template('show_profile.html', user=user, voices=voices)
+
+
+# ユーザリスト閲覧時
+@bp.route('/list_user', methods=['GET', 'POST'])
+def list_user():
+    if request.method == 'POST':
+        search_word = request.form['search']
+        if search_word is None:
+            users = User.query.all()
+            print(search_word)
+        else:
+            # 検索した文字が含まれているユーザを取得
+            users = User.query.filter(User.username.contains(search_word)).all()
+    else:
+        users = User.query.all()
+    return render_template('list_user.html', users=users)
 
 
 # ユーザ登録情報変更時
@@ -143,6 +169,7 @@ def change_user_info(id):
         flash('ユーザ情報の更新に成功しました')
     return render_template('user.html', form=form)
 
+
 # パスワード再設定時
 @bp.route('/change_password', methods=['GET', 'POST'])
 def change_password():
@@ -156,6 +183,7 @@ def change_password():
         flash('パスワードの更新に成功しました')
         redirect(url_for('app.user'))
     return render_template('change_password.html', form=form)
+
 
 # ボイス作成時
 @bp.route('/voice', methods=['GET', 'POST'])
