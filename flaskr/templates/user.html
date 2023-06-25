@@ -1,23 +1,42 @@
 {% from "_formhelpers.html" import render_field %}
 {% extends "base.html" %}
 {% block title %}
-    ユーザ情報編集画面 - {{ super() }}
+    ユーザー情報変更画面 - {{ super() }}
 {% endblock %}
 {% block content %}
     {% for message in get_flashed_messages() %}
     {{ message }}
     {% endfor %}
-
+    <h1>ユーザー情報変更画面</h1>
     {% if current_user.picture_path %}
     <img class="icon-big" src="{{ url_for('static', filename=current_user.picture_path) }}" alt="">
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
         {{ form.csrf_token }}
-        {{ render_field(form.username, value=current_user.username) }}
-        {{ render_field(form.email, value=current_user.email) }}
-        {{ render_field(form.picture_path) }}
-        {{ form.submit() }}
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>ユーザーネーム
+            </p>
+            {{ render_field(form.username, value=current_user.username, class_="form_item_input") }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>メールアドレス
+            </p>
+            {{ render_field(form.email, value=current_user.email, class_="form_item_input") }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                画像
+            </p>
+            <div class="form_file">
+                {{ render_field(form.picture_path) }}
+            </div>
+        </div>
+        <div class="form_item_btn">
+            {{ form.submit(class_="form_btn") }}
+        </div>
     </form>
     <a href="{{ url_for('app.change_password') }}">パスワードを変更する</a>
 {% endblock %}

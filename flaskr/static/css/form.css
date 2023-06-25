@@ -69,7 +69,7 @@ button, input, textarea {
     font-size: 100%;
 }
 
-#title {
+.form_item_input {
     border: 1px solid #ddd;
     border-radius: 6px;
     padding-left: 1em;
@@ -83,7 +83,7 @@ button, input, textarea {
 }
 
 @media screen and (max-width: 480px) {
-    #title {
+    .form_item_input {
         margin-left: 0;
         margin-top: 18px;
         height: 40px;
@@ -92,7 +92,7 @@ button, input, textarea {
     }
 }
 
-#voice {
+.form_item_textarea {
     border: 1px solid #ddd;
     border-radius: 6px;
     padding-left: 1em;
@@ -106,7 +106,7 @@ button, input, textarea {
 }
 
 @media screen and (max-width: 480px) {
-    #voice {
+    .form_item_textarea {
         margin-top: 18px;
         margin-left: 0;
         height: 200px;
@@ -115,15 +115,15 @@ button, input, textarea {
     }
 }
 
-/* .file_btn {
+/* .form_file {
     border: 3px solid;
     display: inline-block;
-    padding: 2px 1em;
+    padding: 3px 1em;
     position: relative;
-    width: 300px;
+    width: 410px;
 }
 
-#picture_path {
+.form_file #picture_path {
     height: 100%;
     left: 0;
     opacity: 0;
@@ -132,9 +132,14 @@ button, input, textarea {
     width: 100%;
 } */
 
+.form_item_btn {
+    border-top: 1px solid #ddd;
+}
+
 .form_btn {
     border-radius: 6px;
     margin-top: 32px;
+    margin-left: 100px;
     padding-top: 20px;
     padding-bottom: 20px;
     width: 200px;

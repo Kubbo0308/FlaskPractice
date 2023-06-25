@@ -14,20 +14,24 @@
             <p class="form_item_label">
                 <span class="form_item_label_required">必須</span>タイトル
             </p>
-            {{ render_field(form.title) }}
+            {{ render_field(form.title, class_="form_item_input") }}
         </div>
         <div class="form_item">
             <p class="form_item_label">
                 <span class="form_item_label_required">必須</span>本文
             </p>
-            {{ render_field(form.voice) }}
+            {{ render_field(form.voice, class_="form_item_textarea") }}
         </div>
         <div class="form_item">
             <p class="form_item_label">
                 画像
             </p>
-            {{ render_field(form.picture_path) }}
+            <div class="form_file">
+                {{ render_field(form.picture_path) }}
+            </div>
         </div>
-        {{ form.submit(class_="form_btn") }}
+        <div class="form_item_btn">
+            {{ form.submit(class_="form_btn") }}
+        </div>
     </form>
 {% endblock %}

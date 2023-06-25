@@ -11,14 +11,14 @@ from flask import flash
 
 # ログイン用のフォーム
 class LoginForm(FlaskForm):
-    email = StringField('メール： ', validators=[DataRequired(), Email()])
-    password = PasswordField('パスワード： ', validators=[DataRequired()])
+    email = StringField('', validators=[DataRequired(), Email()], render_kw={"placeholder": "例）example@mail.com"})
+    password = PasswordField('', validators=[DataRequired()], render_kw={"placeholder": "パスワードを入力"})
     submit = SubmitField('ログイン')
 
 # 新規登録用のフォーム
 class RegisterForm(FlaskForm):
-    username = StringField('名前： ', validators=[DataRequired()])
-    email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスを入力してくだちい')])
+    username = StringField('', validators=[DataRequired()], render_kw={"placeholder": "ユーザーネームを入力"})
+    email = StringField('', validators=[DataRequired(), Email('メールアドレスを入力してくだちい')], render_kw={"placeholder": "例）example@mail.com"})
     submit = SubmitField('新規登録')
 
     # メースアドレスが既に登録されているか確認
@@ -29,9 +29,9 @@ class RegisterForm(FlaskForm):
 # パスワード再設定用フォーム
 class ResetPasswordForm(FlaskForm):
     password = PasswordField(
-        'パスワード', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')]
+        '', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')], render_kw={"placeholder": "パスワードを入力"}
     )
-    confirm_password = PasswordField('パスワード確認: ', validators=[DataRequired()])
+    confirm_password = PasswordField('', validators=[DataRequired()], render_kw={"placeholder": "パスワードを再入力"})
     submit = SubmitField('パスワードを更新する')
 
     def validate_password(self, field):
@@ -40,7 +40,7 @@ class ResetPasswordForm(FlaskForm):
 
 # パスワードを忘れた時用のフォーム
 class ForgotPasswordForm(FlaskForm):
-    email = StringField('メール： ', validators=[DataRequired(), Email()])
+    email = StringField('', validators=[DataRequired(), Email()], render_kw={"placeholder": "例）example@mail.com"})
     submit = SubmitField('パスワードを再設定する')
 
     def validate_email(self, field):
@@ -49,9 +49,9 @@ class ForgotPasswordForm(FlaskForm):
 
 # ユーザの情報を変更する用のフォーム
 class UserForm(FlaskForm):
-    email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスが間違っています')])
-    username = StringField('名前： ', validators=[DataRequired()])
-    picture_path = FileField('ファイルアップロード')
+    email = StringField('メール： ', validators=[DataRequired(), Email('メールアドレスが間違っています')], render_kw={"placeholder": "例）example@mail.com"})
+    username = StringField('名前： ', validators=[DataRequired()], render_kw={"placeholder": "ユーザーネームを入力"})
+    picture_path = FileField('')
     submit = SubmitField('登録情報更新')
 
     def validate(self):
@@ -67,8 +67,8 @@ class UserForm(FlaskForm):
 
 # パスワードを変更する用のフォーム
 class ChangePassword(FlaskForm):
-    password = PasswordField('パスワード： ', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')])
-    confirm_password = PasswordField('パスワード確認： ', validators=[DataRequired()])
+    password = PasswordField('', validators=[DataRequired(), EqualTo('confirm_password', message='パスワードが一致しません')], render_kw={"placeholder": "パスワードを入力"})
+    confirm_password = PasswordField('', validators=[DataRequired()], render_kw={"placeholder": "パスワードを再入力"})
     submit = SubmitField('パスワード再設定')
 
     def validate_password(self, field):
@@ -85,7 +85,7 @@ class CreateVoiceForm(FlaskForm):
 
 # ボイスを更新する用のフォーム
 class UpdateVoiceForm(FlaskForm):
-    title = StringField('タイトル： ', validators=[DataRequired()])
-    voice = TextAreaField('内容： ', validators=[DataRequired()])
-    picture_path = FileField('ファイルアップロード', default='')
+    title = StringField('', validators=[DataRequired()])
+    voice = TextAreaField('', validators=[DataRequired()])
+    picture_path = FileField('', default='')
     submit = SubmitField('ボイス更新')

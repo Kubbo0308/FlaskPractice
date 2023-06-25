@@ -14,9 +14,28 @@
 
     <form method="POST" enctype="multipart/form-data">
         {{ form.csrf_token }}
-        {{ render_field(form.title, value=voice.title) }}
-        {{ render_field(form.voice, value=voice.voice) }}
-        {{ render_field(form.picture_path, value=voice.picture_path) }}
-        {{ form.submit() }}
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>タイトル
+            </p>
+            {{ render_field(form.title, value=voice.title, class_="form_item_input") }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>本文
+            </p>
+            {{ render_field(form.voice, value=voice.voice, class_="form_item_textarea") }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                画像
+            </p>
+            <div class="form_file">
+                {{ render_field(form.picture_path, value=voice.picture_path) }}
+            </div>
+        </div>
+        <div class="form_item_btn">
+            {{ form.submit(class_="form_btn") }}
+        </div>
     </form>
 {% endblock %}

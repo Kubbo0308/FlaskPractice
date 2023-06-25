@@ -191,12 +191,13 @@ def change_password():
 def voice():
     form = CreateVoiceForm(request.form)
     if request.method == 'POST' and form.validate():
+        file = request.files[form.picture_path.name].read()
         # picture_pathに何も入っていない場合
-        if len(request.files[form.picture_path.name].read()) == 0:
+        if len(file) == 0:
             new_voice = Voice(current_user.get_id(), form.title.data, None, form.voice.data)
         else:
             file = request.files[form.picture_path.name].read()
-            file_name = current_user.get_id() + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+            file_name = str(current_user.get_id()) + '_' + str(int(datetime.now().timestamp())) + '.jpg'
             picture_path = 'flaskr/static/voice_image/' + file_name
             open(picture_path, 'wb').write(file)
             voice_picture_path = 'voice_image/' + file_name
@@ -204,7 +205,7 @@ def voice():
         new_voice.create_voice()
         db.session.commit()
         flash('新規ボイス投稿に成功しました')
-        redirect(url_for('app.home'))
+        return redirect(url_for('app.home'))
     return render_template(
         'voice.html', form=form
     )
@@ -220,13 +221,13 @@ def update_voice(id):
         voice.voice = form.voice.data
         file = request.files[form.picture_path.name].read()
         if len(file) != 0:
-            file_name = str(id) + '_' + str(int(datetime.now().timestamp())) + 'jpg'
+            file_name = str(current_user.get_id()) + '_' + str(int(datetime.now().timestamp())) + '.jpg'
             picture_path = 'flaskr/static/voice_image/' + file_name
             open(picture_path, 'wb').write(file)
             voice.picture_path = 'voice_image/' + file_name
         db.session.commit()
         flash('ボイスの投稿に成功しました')
-        redirect(url_for('app.home'))
+        return redirect(url_for('app.home'))
     return render_template('update_voice.html', form=form, voice=voice)
 
 

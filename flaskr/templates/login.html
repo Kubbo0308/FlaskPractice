@@ -7,12 +7,25 @@
 {% for message in get_flashed_messages() %}
 {{ message }}
 {% endfor %}
+<h1>ログイン画面</h1>
 <div class="row">
     <form method="POST">
         {{ form.csrf_token }}
-        {{ render_field(form.email) }}
-        {{ render_field(form.password) }}
-        {{ form.submit() }}
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>メールアドレス
+            </p>
+            {{ render_field(form.email, class_="form_item_input") }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>パスワード
+            </p>
+            {{ render_field(form.password, class_="form_item_input") }}
+        </div>
+        <div class="form_item_btn">
+            {{ form.submit(class_="form_btn") }}
+        </div>
     </form>
     <a href="{{ url_for('app.forgot_password') }}">
         パスワードを忘れた場合
