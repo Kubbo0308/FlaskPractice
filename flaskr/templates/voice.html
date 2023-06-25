@@ -10,9 +10,24 @@
     <h1>ボイス投稿</h1>
     <form method="POST" enctype="multipart/form-data">
         {{ form.csrf_token }}
-        {{ render_field(form.title) }}
-        {{ render_field(form.picture_path) }}
-        {{ render_field(form.voice) }}
-        {{ form.submit() }}
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>タイトル
+            </p>
+            {{ render_field(form.title) }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                <span class="form_item_label_required">必須</span>本文
+            </p>
+            {{ render_field(form.voice) }}
+        </div>
+        <div class="form_item">
+            <p class="form_item_label">
+                画像
+            </p>
+            {{ render_field(form.picture_path) }}
+        </div>
+        {{ form.submit(class_="form_btn") }}
     </form>
 {% endblock %}

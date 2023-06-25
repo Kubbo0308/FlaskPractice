@@ -77,9 +77,9 @@ class ChangePassword(FlaskForm):
 
 # ボイスを投稿する用のフォーム
 class CreateVoiceForm(FlaskForm):
-    title = StringField('タイトル： ', validators=[DataRequired()])
-    voice = TextAreaField('内容： ', validators=[DataRequired()])
-    picture_path = FileField('ファイルアップロード', default='')
+    title = StringField('', validators=[DataRequired()], render_kw={"placeholder": "タイトルを入力"})
+    voice = TextAreaField('', validators=[DataRequired()], render_kw={"placeholder": "本文を入力"})
+    picture_path = FileField('', default='')
     submit = SubmitField('ボイス投稿')
 
 
